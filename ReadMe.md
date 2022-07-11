@@ -58,10 +58,19 @@ True
 
 ### Custom units
 #### Creating your own units
-
+To create you own units call `create_units` function with named parameters where the name is the unit name
+and the value is the weight of the unit relative to the previous one:
 ```python
 >>> from units import create_units
->>> characters, words, sentences, paragraphs, pages, chapters, books = create_units(group_name="Book", characters=1, words=4.7, sentences=21, paragraphs=3.5, pages=3, chapters=13, books=3)
+>>> characters, words, sentences, paragraphs, pages, chapters, books = create_units(
+...     group_name="Book",
+...     characters=1, 
+...     words=4.7,
+...     sentences=21, 
+...     paragraphs=3.5, 
+...     pages=3, 
+...     chapters=13,
+...     books=3)
 >>> hound_of_the_baskervilles_book = 256*pages
 >>> hound_of_the_baskervilles_book >> words
 56447.99999999999 words
@@ -84,7 +93,7 @@ Loading specific units
 220.49999999999997 words
 ```
 
-The result of load_units is a namedtuple, so you can use it in the following well
+The result of load_units is a namedtuple, so you can use it in the following way:
 ```python
 >>> from units import load_units
 >>> units = load_units("words", "pages")
