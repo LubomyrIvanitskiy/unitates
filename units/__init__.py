@@ -301,7 +301,9 @@ def _get_minimum_unit_by_group():
 ## Public API
 ####################
 
-def create_units(group_name: str = "common", weight_type="rel", **unit_map):
+def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_weight_map):
+    assert all([isinstance(v, Number) for v in unit_to_weight_map.items()]), \
+        "unit_to_weight_map should consist of unit name and it's weight"
     if "unit_to_weight" not in globals():
         global unit_to_weight
         unit_to_weight = OrderedDict()
@@ -318,12 +320,12 @@ def create_units(group_name: str = "common", weight_type="rel", **unit_map):
     if weight_type == "rel":
         new_map = {}
         prev_value = 1
-        for k, v in unit_map.items():
+        for k, v in unit_to_weight_map.items():
             prev_value = new_map[k] = v * prev_value
-        unit_map = new_map
+        unit_to_weight_map = new_map
 
     res = []
-    for unit_name, weight in unit_map.items():
+    for unit_name, weight in unit_to_weight_map.items():
         if group_name in group_to_units:
             group_to_units[group_name].append(unit_name)
         else:
