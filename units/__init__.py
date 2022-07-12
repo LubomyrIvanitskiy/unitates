@@ -1,6 +1,6 @@
 from collections import OrderedDict, namedtuple
 from numbers import Number
-from typing import List, Union, Iterable
+from typing import List, Union, Iterable, NamedTuple
 
 from units.constants import PREDEFINED_GROUP_LIST
 
@@ -301,7 +301,7 @@ def _get_minimum_unit_by_group():
 ## Public API
 ####################
 
-def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_weight_map):
+def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_weight_map) -> NamedTuple:
     assert all([isinstance(v, Number) for _, v in unit_to_weight_map.items()]), \
         "unit_to_weight_map should consist of unit name and it's weight"
     if "unit_to_weight" not in globals():
@@ -324,7 +324,7 @@ def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_wei
             prev_value = new_map[k] = v * prev_value
         unit_to_weight_map = new_map
 
-    res = []
+    res = {}
     for unit_name, weight in unit_to_weight_map.items():
         if group_name in group_to_units:
             group_to_units[group_name].append(unit_name)
@@ -334,11 +334,12 @@ def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_wei
         unit_to_weight[unit_name] = weight
         obj = SingleUnits({unit_name: 1})
         unit_to_object[unit_name] = obj
-        res.append(obj)
-    return res
+        res[unit_name] = obj
+    UnitsPack = namedtuple("UnitsPack", " ".join(res.keys()))
+    return UnitsPack(**res)
 
 
-def load_units(*unit_names, group_name: str = None, except_group_names: Union[None, str, List[str]] = None):
+def load_units(*unit_names, group_name: str = None, except_group_names: Union[None, str, List[str]] = None) -> NamedTuple:
     res = OrderedDict()
 
     if group_name is not None:
