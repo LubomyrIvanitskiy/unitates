@@ -302,7 +302,7 @@ def _get_minimum_unit_by_group():
 ####################
 
 def create_units(*, group_name: str = "common", weight_type="rel", **unit_to_weight_map):
-    assert all([isinstance(v, Number) for v in unit_to_weight_map.items()]), \
+    assert all([isinstance(v, Number) for _, v in unit_to_weight_map.items()]), \
         "unit_to_weight_map should consist of unit name and it's weight"
     if "unit_to_weight" not in globals():
         global unit_to_weight

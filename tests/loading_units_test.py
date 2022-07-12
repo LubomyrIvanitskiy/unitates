@@ -9,13 +9,13 @@ def reset_all_units():
 
 @pytest.fixture
 def create_book_units():
-    yield create_units("BookUnits", words=1, pages=500, books=200)
+    yield create_units(group_name="BookUnits", words=1, pages=500, books=200)
     # destroy_units("BookUnits")
 
 
 @pytest.fixture
 def create_mass_units():
-    create_units("MassUnits", grams=1, kilograms=1000)
+    create_units(group_name="MassUnits", grams=1, kilograms=1000)
     # destroy_units("MassUnits")
 
 
