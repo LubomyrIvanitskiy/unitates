@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='unitates',
-    version='1.0.9',
+    version='1.0.10',
     packages=['tests', 'units', 'units.constants'],
     url='',
     license='MIT License',
