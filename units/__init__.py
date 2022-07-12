@@ -122,7 +122,7 @@ class Units(float):
     @align_arguments
     def __pow__(self, power, modulo=None):
         assert isinstance(power, Number) and not isinstance(power, Units), "Raising to the Units object makes no sense"
-        return _create_units_object(float.__pow__(self, power, modulo), {u: 2 * p for u, p in self.units.items()})
+        return _create_units_object(float.__pow__(self, power, modulo), {u: power * p for u, p in self.units.items()})
 
     @align_arguments
     def __rpow__(self, power, modulo=None):
